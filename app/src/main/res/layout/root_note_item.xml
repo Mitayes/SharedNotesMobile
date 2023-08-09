@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:background="@color/light_blue"
+    android:layout_marginBottom="7dp"
+    >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_marginStart="5dp"
+        >
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            tools:text="Название заметки"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="Описание заметки"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ImageUnshared"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/share_void"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="visible"
+        android:contentDescription="@string/imageUnsharedDescription" />
+    <ImageView
+        android:id="@+id/ImageShared"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/share_feel"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        android:contentDescription="@string/imageSharedDescription" />
+</LinearLayout>
