@@ -1,8 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.SharedNotesKotlin" parent="Theme.Material3.DayNight">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!--   Color for the app bar and other primary UI elements. -->
+        <item name="colorPrimary">@color/main_blue_hard</item>
+        <item name="colorPrimaryVariant">@color/main_blue_medium</item>
     </style>
 
     <style name="Theme.SharedNotesKotlin" parent="Base.Theme.SharedNotesKotlin" />

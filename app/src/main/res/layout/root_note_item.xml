@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/im_root_note_item"
     android:layout_width="match_parent"
     android:layout_height="70dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:background="@color/light_blue"
+    android:background="@color/main_blue_light"
     android:layout_marginBottom="7dp"
     >
 
@@ -38,21 +39,10 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/ImageUnshared"
+        android:id="@+id/iconShared"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@drawable/share_void"
         android:layout_marginTop="13dp"
         android:layout_marginEnd="10dp"
-        android:visibility="visible"
         android:contentDescription="@string/imageUnsharedDescription" />
-    <ImageView
-        android:id="@+id/ImageShared"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@drawable/share_feel"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="10dp"
-        android:visibility="gone"
-        android:contentDescription="@string/imageSharedDescription" />
 </LinearLayout>
