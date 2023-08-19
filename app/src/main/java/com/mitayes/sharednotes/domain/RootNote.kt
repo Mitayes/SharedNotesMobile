@@ -2,8 +2,8 @@ package com.mitayes.sharednotes.domain
 
 data class RootNote(
     val uuid: String = "",
-    val name: String,
-    val description: String = "",
-    val shared: Boolean
+    var name: String,
+    var description: String = "",
+    var shared: Boolean
 ):java.io.Serializable
 

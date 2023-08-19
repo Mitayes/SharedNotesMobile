@@ -4,7 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".presentation.MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="Shared Notes"
+        app:titleTextColor="@color/white"
+        android:background="@color/main_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/labelMyNotes"
@@ -13,7 +24,7 @@
         android:text="@string/LabelMyNotesValue"
         android:textSize="30sp"
         android:textColor="@color/main_blue_hard"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_main"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
@@ -23,7 +34,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/baseline_sync_30"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_main"
         app:layout_constraintEnd_toStartOf="@id/buttonNewRootNote"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
@@ -34,7 +45,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/baseline_library_add_30"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_main"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"

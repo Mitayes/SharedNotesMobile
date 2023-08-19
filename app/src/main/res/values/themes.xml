@@ -1,9 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.SharedNotesKotlin" parent="Theme.Material3.DayNight">
+    <style name="Base.Theme.SharedNotesKotlin" parent="Theme.Material3.DayNight.NoActionBar" >
         <!--   Color for the app bar and other primary UI elements. -->
         <item name="colorPrimary">@color/main_blue_hard</item>
         <item name="colorPrimaryVariant">@color/main_blue_medium</item>
+        <item name="android:homeAsUpIndicator">@drawable/baseline_arrow_back_30</item>
     </style>
 
     <style name="Theme.SharedNotesKotlin" parent="Base.Theme.SharedNotesKotlin" />

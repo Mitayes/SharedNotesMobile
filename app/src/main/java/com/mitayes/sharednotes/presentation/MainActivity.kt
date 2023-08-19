@@ -1,14 +1,15 @@
-package com.mitayes.sharednotes
+package com.mitayes.sharednotes.presentation
 
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mitayes.sharednotes.EditRootNoteActivity
+import com.mitayes.sharednotes.NoteAdapter
 import com.mitayes.sharednotes.databinding.ActivityMainBinding
 import com.mitayes.sharednotes.domain.RootNote
 
@@ -33,17 +34,24 @@ class MainActivity : AppCompatActivity() {
     private fun init() = with(binding){
         rootNoteRecyclerViewList.layoutManager = LinearLayoutManager(this@MainActivity)
         rootNoteRecyclerViewList.adapter = adapter
-        adapter.setOnItemClickListener(object : NoteAdapter.OnItemClickListener{
-            override fun onItemClick(position: Int) {
-                Toast.makeText(this@MainActivity, "You clicked on $position", Toast.LENGTH_SHORT).show()
+        adapter.setOnClickListener(object : NoteAdapter.OnClickListener {
+            override fun onClick(position: Int, model: RootNote) {
+                val intent = Intent(this@MainActivity, EditRootNoteActivity::class.java)
+                intent.putExtra(NEXT_SCREEN, model)
+                startActivity(intent)
             }
 
         })
+
         buttonNewRootNote.setOnClickListener {
             val intent = Intent(this@MainActivity, EditRootNoteActivity::class.java)
             startActivity(intent)
         }
     }
+
+companion object{
+    const val NEXT_SCREEN="details_screen"
+}
 
     private fun fillList(adapter: NoteAdapter) {
 //        val rootNotes = ArrayList<RootNote>()
