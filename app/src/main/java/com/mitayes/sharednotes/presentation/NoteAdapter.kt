@@ -1,20 +1,20 @@
-package com.mitayes.sharednotes
+package com.mitayes.sharednotes.presentation
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.mitayes.sharednotes.R
 import com.mitayes.sharednotes.databinding.RootNoteItemBinding
 import com.mitayes.sharednotes.domain.RootNote
 
-typealias ClickTextAction = ((Int) -> Unit)
+typealias ClickIconAction = ((Int) -> Unit)
 
 class NoteAdapter() : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
     private val noteList = ArrayList<RootNote>()
     private var onClickListener: OnClickListener? = null
-
-    var iconSharedClickAction: ClickTextAction? = null
+    var iconSharedClickAction: ClickIconAction? = null
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = RootNoteItemBinding.bind(itemView)
@@ -37,13 +37,9 @@ class NoteAdapter() : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // Тут мы создаём элемент RecyclerView
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.root_note_item, parent, false)
-//        iconSharedClickAction = {
-//            noteList[it].shared = !noteList[it].shared
-//            notifyItemChanged(it)
-//        }
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.root_note_item, parent, false)
         return ViewHolder(view)
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -87,4 +83,3 @@ class NoteAdapter() : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
         fun onClick(position: Int, model: RootNote)
     }
 }
-

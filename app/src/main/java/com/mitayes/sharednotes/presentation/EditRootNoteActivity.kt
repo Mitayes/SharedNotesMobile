@@ -1,4 +1,4 @@
-package com.mitayes.sharednotes
+package com.mitayes.sharednotes.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
