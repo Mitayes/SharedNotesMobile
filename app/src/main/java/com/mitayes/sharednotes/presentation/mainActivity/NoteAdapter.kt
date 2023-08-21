@@ -1,4 +1,4 @@
-package com.mitayes.sharednotes.presentation
+package com.mitayes.sharednotes.presentation.mainActivity
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -30,9 +30,7 @@ class NoteAdapter() : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
             iconShared.setOnClickListener {
                 iconSharedClickAction?.invoke(adapterPosition)
             }
-
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -67,7 +65,15 @@ class NoteAdapter() : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun editNote(position: Int, rootNote: RootNote) {
-        noteList[position] = rootNote
+        noteList[position].name = rootNote.name
+        noteList[position].description = rootNote.description
+        noteList[position].shared = rootNote.shared
+        notifyItemChanged(position)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeNote(position: Int) {
+        noteList.removeAt(position)
         notifyDataSetChanged()
     }
 
@@ -75,8 +81,21 @@ class NoteAdapter() : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
         return noteList[position]
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun reloadNotes(noteList: ArrayList<RootNote>) {
+        noteList.clear()
+        for(note in noteList){
+            noteList.add(note)
+        }
+        notifyDataSetChanged()
+    }
+
     fun setOnClickListener(onClickListener: OnClickListener) {
         this.onClickListener = onClickListener
+    }
+
+    fun noteClear() {
+        noteList.clear()
     }
 
     interface OnClickListener {

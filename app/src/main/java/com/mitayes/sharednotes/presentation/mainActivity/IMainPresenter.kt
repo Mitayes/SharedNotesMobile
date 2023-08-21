@@ -1,4 +1,4 @@
-package com.mitayes.sharednotes.presentation
+package com.mitayes.sharednotes.presentation.mainActivity
 
 import com.mitayes.sharednotes.domain.RootNote
 
@@ -8,4 +8,5 @@ interface IMainPresenter {
     fun removeNote(position: Int) : Boolean
     fun loadNoteList()
     fun syncNotes()
+    fun reloadNotes()
 }
