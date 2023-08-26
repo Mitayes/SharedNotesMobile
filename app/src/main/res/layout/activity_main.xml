@@ -37,9 +37,10 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/baseline_cloud_upload_30"
+        android:contentDescription="@string/sync_btn_description"
         app:layout_constraintEnd_toStartOf="@id/buttonNewRootNote"
         app:layout_constraintTop_toBottomOf="@id/toolbar_main"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <ImageButton
         android:id="@+id/buttonNewRootNote"
@@ -48,9 +49,10 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/baseline_library_add_30"
+        android:contentDescription="@string/add_btn_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_main"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rootNoteRecyclerViewList"

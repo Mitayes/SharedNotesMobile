@@ -27,8 +27,6 @@ class MainActivity : AppCompatActivity(), IMainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("CUSTOM_LOG", "MainActivity created")
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -60,19 +58,13 @@ class MainActivity : AppCompatActivity(), IMainView {
                 }
             }
         })
+
+        // Настраиваем действие при быстром нажатии на заметку
         adapter.setOnClickListener(object : NoteAdapter.OnClickListener {
             override fun onClick(position: Int, model: RootNote) {
                 val intent = Intent(this@MainActivity, EditNoteActivity::class.java)
-
-//                val sendIntent: Intent = Intent().apply {
-//                    action = Intent.ACTION_SEND
-//                    putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
-//                    type = "text/plain"
-//                }
-
                 intent.putExtra(NEXT_SCREEN, model)
                 intent.putExtra("position", position)
-
                 startActivity(intent)
             }
         })
@@ -92,17 +84,16 @@ class MainActivity : AppCompatActivity(), IMainView {
 
     }
 
-    override fun onContentChanged() {
-        super.onContentChanged()
-    }
+
     fun dpToPx(px: Float): Float {
         return px * resources.displayMetrics.density
     }
+
     private fun showAlertDialogAndDeleteNote(position: Int) {
         val note = presenter.getNote(position)
         val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
         alertDialog.setTitle("Удаление")
-        alertDialog.setMessage("Вы действительно хотите удалить заметку \"${note.name}\"?")
+        alertDialog.setMessage("Вы действительно хотите удалить заметку: \"${note.name}\"?")
         alertDialog.setPositiveButton(
             "да"
         ) { _, _ ->

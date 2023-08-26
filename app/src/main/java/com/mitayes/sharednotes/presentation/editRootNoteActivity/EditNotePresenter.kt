@@ -9,7 +9,9 @@ class EditNotePresenter(
 ): IEditNotePresenter {
     private val localDB: ILocalDB = LocalDBMockSingle.getInstance()
     override fun saveNewNote(newNote: RootNote) {
-        localDB.addNote(newNote)
+        if (newNote.name != "" || newNote.description != "") {
+            localDB.addNote(newNote)
+        }
         view.complete()
     }
 

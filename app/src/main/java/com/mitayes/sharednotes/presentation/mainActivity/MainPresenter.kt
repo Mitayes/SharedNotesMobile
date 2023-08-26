@@ -22,14 +22,6 @@ class MainPresenter(
         return view.adapter.getNote(position)
     }
 
-    override fun addNote(note: RootNote) : Boolean {
-        if (localDB.addNote(note)){
-            view.adapter.addNote(note)
-            return true
-        }
-        return false
-    }
-
     override fun editNote(position: Int, note: RootNote) : Boolean {
         if (localDB.editNote(position, note)){
             view.adapter.editNote(position, note)

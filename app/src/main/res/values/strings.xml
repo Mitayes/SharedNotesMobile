@@ -6,6 +6,8 @@
     <string name="note_description_hint">Текст заметки</string>
     <string name="note_name_hint">Название заметки</string>
     <string name="edit_toolbar_title">Редактирование</string>
+    <string name="add_btn_description">Добавить заметку</string>
+    <string name="sync_btn_description">Синхронизировать заметки</string>
 
     <dimen name="noteName">28sp</dimen>
 </resources>
