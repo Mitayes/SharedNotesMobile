@@ -6,4 +6,8 @@
     <color name="main_blue">#3E92F8</color>
     <color name="main_blue_medium">#70ACF6</color>
     <color name="main_blue_light">#B7DFFF</color>
+    <color name="main">#B2D8A1</color>
+    <color name="green_medium">#256A0C</color>
+    <color name="gray_light">#CCE4E4E4</color>
+    <color name="gray">#505050</color>
 </resources>

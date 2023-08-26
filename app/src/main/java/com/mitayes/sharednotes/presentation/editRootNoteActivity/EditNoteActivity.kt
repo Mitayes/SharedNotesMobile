@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.widget.Toast
+import com.mitayes.sharednotes.R
 import com.mitayes.sharednotes.databinding.ActivityEditRootNoteBinding
 import com.mitayes.sharednotes.domain.RootNote
 import com.mitayes.sharednotes.presentation.mainActivity.MainActivity
@@ -45,7 +46,7 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
             noteName = editedData.name
             noteDescription = editedData.description
 
-            binding.toolbar.title = "Редактирование заметки"
+            binding.toolbar.title = getString(R.string.edit_toolbar_title)
             binding.etName.setText(noteName)
             binding.twDescription.setText(noteDescription)
         }

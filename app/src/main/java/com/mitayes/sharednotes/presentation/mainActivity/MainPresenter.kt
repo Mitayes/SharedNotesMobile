@@ -9,15 +9,19 @@ class MainPresenter(
 ) : IMainPresenter {
     private val localDB: ILocalDB = LocalDBMockSingle.getInstance()
 
-    init {
-        localDB.init()
-    }
+    init { localDB.init() }
+
     override fun loadNoteList() {
         val noteList = localDB.getNoteList()
         for (item in noteList){
             view.adapter.addNote(item)
         }
     }
+
+    override fun getNote(position: Int): RootNote {
+        return view.adapter.getNote(position)
+    }
+
     override fun addNote(note: RootNote) : Boolean {
         if (localDB.addNote(note)){
             view.adapter.addNote(note)

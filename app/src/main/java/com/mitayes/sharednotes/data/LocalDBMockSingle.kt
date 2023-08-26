@@ -48,10 +48,10 @@ class LocalDBMockSingle private constructor(): ILocalDB {
     }
 
     override fun removeNote(position: Int): Boolean {
-//        if (position > noteList.size + 1) {
-//            return false
-//        }
-//        noteList.removeAt(position)
+        if (position > noteList.size + 1) {
+            return false
+        }
+        noteList.removeAt(position)
         return true
     }
 
