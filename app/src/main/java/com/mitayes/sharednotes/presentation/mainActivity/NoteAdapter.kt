@@ -9,22 +9,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mitayes.sharednotes.R
+import com.mitayes.sharednotes.data.sqlite.LocalDBSQLite
 import com.mitayes.sharednotes.databinding.RootNoteItemBinding
 import com.mitayes.sharednotes.domain.RootNote
 
 typealias ClickIconAction = ((Int, AppCompatActivity) -> Unit)
 typealias LongClickItemAction = ((Int) -> Unit)
 
-class NoteAdapter(context: MainActivity) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
-    private val context = context
-    private val noteList = ArrayList<RootNote>()
+class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
+    private val noteList = mutableListOf<RootNote>()
     private var onClickListener: OnClickListener? = null
     private var onLongClickListener: OnLongClickListener? = null
     var iconSharedClickAction: ClickIconAction? = null
     var itemLongClickAction: LongClickItemAction? = null
 
+    private val sqliteDB: LocalDBSQLite = LocalDBSQLite()
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = RootNoteItemBinding.bind(itemView)
+        private val binding = RootNoteItemBinding.bind(itemView)
     fun bind(rootNote: RootNote) = with(binding){
             name.text = rootNote.name
             description.text = rootNote.description
@@ -91,6 +93,16 @@ class NoteAdapter(context: MainActivity) : RecyclerView.Adapter<NoteAdapter.View
     @SuppressLint("NotifyDataSetChanged")
     fun addNote(rootNote: RootNote) {
         noteList.add(rootNote)
+        notifyDataSetChanged()
+
+        sqliteDB.addNote(rootNote)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addNotes(list: List<RootNote>) {
+        list.forEach {
+            noteList.add(it)
+        }
         notifyDataSetChanged()
     }
 

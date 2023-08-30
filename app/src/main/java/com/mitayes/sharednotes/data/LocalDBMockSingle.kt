@@ -55,5 +55,9 @@ class LocalDBMockSingle private constructor(): ILocalDB {
         return true
     }
 
+    override fun removeNote(note: RootNote): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override fun getNoteList(): ArrayList<RootNote> = noteList
 }

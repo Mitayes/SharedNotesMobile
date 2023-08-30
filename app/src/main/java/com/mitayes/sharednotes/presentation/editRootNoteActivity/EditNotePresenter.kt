@@ -1,15 +1,16 @@
 package com.mitayes.sharednotes.presentation.editRootNoteActivity
 
 import com.mitayes.sharednotes.data.LocalDBMockSingle
+import com.mitayes.sharednotes.doIf
 import com.mitayes.sharednotes.domain.ILocalDB
 import com.mitayes.sharednotes.domain.RootNote
 
 class EditNotePresenter(
     private val view: IEditNoteActivity,
 ): IEditNotePresenter {
-    private val localDB: ILocalDB = LocalDBMockSingle.getInstance()
+    private val localDB: ILocalDB by lazy { LocalDBMockSingle.getInstance() }
     override fun saveNewNote(newNote: RootNote) {
-        if (newNote.name != "" || newNote.description != "") {
+        doIf(newNote.name.isNotBlank() || newNote.description.isNotBlank()){
             localDB.addNote(newNote)
         }
         view.complete()

@@ -10,3 +10,7 @@ interface IMainPresenter {
     fun syncNotes()
     fun reloadNotes()
 }
+
+interface IMainView {
+    val adapter: NoteAdapter
+}

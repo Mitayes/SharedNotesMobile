@@ -1,50 +1,52 @@
 package com.mitayes.sharednotes.presentation.editRootNoteActivity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.mitayes.sharednotes.R
 import com.mitayes.sharednotes.databinding.ActivityEditRootNoteBinding
+import com.mitayes.sharednotes.doIf
 import com.mitayes.sharednotes.domain.RootNote
+import com.mitayes.sharednotes.logD
 import com.mitayes.sharednotes.presentation.mainActivity.MainActivity
 import java.util.UUID
 
 class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
-    private val presenter: IEditNotePresenter = EditNotePresenter(this)
-    lateinit var binding: ActivityEditRootNoteBinding
+    private val presenter: IEditNotePresenter by lazy { EditNotePresenter(this) }
+    private val binding: ActivityEditRootNoteBinding by lazy {
+        ActivityEditRootNoteBinding.inflate(
+            layoutInflater
+        )
+    }
 
-    override var noteName: String ?= null
-    override var noteDescription: String ?= null
+    override var noteName: String? = null
+    override var noteDescription: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityEditRootNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
 
-        var editedData : RootNote?=null
-        var notePosition : Int?=null
+        var editedData: RootNote? = null
+        var notePosition: Int? = null
 
-        // checking if the intent has extra
-        if(intent.hasExtra(MainActivity.NEXT_SCREEN)){
-            // get the Serializable data model class with the details in it
+        doIf(intent.hasExtra(MainActivity.NEXT_SCREEN)) {
             editedData = intent.getSerializableExtra(MainActivity.NEXT_SCREEN) as RootNote
         }
-        if(intent.hasExtra("position")){
-            // get the Serializable data model class with the details in it
-            notePosition = intent.getSerializableExtra("position") as Int
+
+        doIf(intent.hasExtra("position")) {
+            notePosition = intent.getIntExtra("position", 0)
         }
+
         // it the emplist is not null the it has some data and display it
-        if(editedData != null){
-            noteName = editedData.name
-            noteDescription = editedData.description
+        editedData?.let {
+            noteName = it.name
+            noteDescription = it.description
 
             binding.toolbar.title = getString(R.string.edit_toolbar_title)
             binding.etName.setText(noteName)
@@ -52,16 +54,21 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
         }
 
         binding.buttonSave.setOnClickListener {
-            Log.d("CUSTOM_LOG", "buttonSave clicked")
-            if (notePosition!= null && editedData != null){
-                val newNote = RootNote(
-                    editedData.uuid,
-                    binding.etName.text.toString(),
-                    binding.twDescription.text.toString(),
-                    editedData.shared
-                )
-                presenter.editNote(notePosition, newNote)
-            } else {
+            logD("buttonSave clicked")
+            doIf(notePosition != null && editedData != null) {
+                editedData?.let {
+                    val newNote = RootNote(
+                        it.uuid,
+                        binding.etName.text.toString(),
+                        binding.twDescription.text.toString(),
+                        it.shared
+                    )
+                    notePosition?.let { p ->
+                        presenter.editNote(p, newNote)
+                    }
+                }
+            }
+            doIf(!(notePosition != null && editedData != null)){
                 val newNote = RootNote(
                     UUID.randomUUID().toString(),
                     binding.etName.text.toString(),
@@ -74,7 +81,7 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
     }
 
     override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.d("TAG", "long tap")
+        logD("long tap")
         return super.onKeyLongPress(keyCode, event)
     }
 
