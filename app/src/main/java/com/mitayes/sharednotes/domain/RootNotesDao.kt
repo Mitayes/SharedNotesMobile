@@ -25,6 +25,17 @@ interface RootNotesDao {
         ";")
     fun getAllRootNotes(): Single<MutableList<RootNoteTuple>>
 
+    @Query(
+        "SELECT " +
+                "uuid " +
+                ", name" +
+                ", description" +
+                ", shared " +
+                ", is_owner " +
+                "FROM $ROOT_NOTES_TABLE_NAME " +
+                "WHERE uuid = :uuid ;")
+    fun getRootNote(uuid: String): Single<MutableList<RootNoteTuple>>
+
     @Insert(entity = RootNotesDBEntity::class, onConflict = OnConflictStrategy.REPLACE)
     fun insertRootNote(note: RootNotesDBEntity) : Completable
 

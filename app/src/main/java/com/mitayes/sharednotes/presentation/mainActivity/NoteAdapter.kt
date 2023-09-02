@@ -12,6 +12,8 @@ import com.mitayes.sharednotes.R
 import com.mitayes.sharednotes.data.sqlite.LocalDBSQLite
 import com.mitayes.sharednotes.databinding.RootNoteItemBinding
 import com.mitayes.sharednotes.domain.RootNote
+import com.mitayes.sharednotes.logE
+import io.reactivex.disposables.CompositeDisposable
 
 typealias ClickIconAction = ((Int, AppCompatActivity) -> Unit)
 typealias LongClickItemAction = ((Int) -> Unit)
@@ -23,7 +25,8 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
     var iconSharedClickAction: ClickIconAction? = null
     var itemLongClickAction: LongClickItemAction? = null
 
-    private val sqliteDB: LocalDBSQLite = LocalDBSQLite()
+    private val localDB: LocalDBSQLite = LocalDBSQLite()
+    private val bag = CompositeDisposable()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = RootNoteItemBinding.bind(itemView)
@@ -44,12 +47,6 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
                 itemLongClickAction?.invoke(adapterPosition)
                 return@setOnLongClickListener true
             }
-
-//            itemView.setOnLongClickListener {
-////                Toast.makeText(it.context, "Position is $adapterPosition", Toast.LENGTH_SHORT).show()
-//                context.presenter.removeNote(adapterPosition)
-//                return@setOnLongClickListener true
-//            }
         }
     }
 
@@ -73,30 +70,33 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
             return@setOnLongClickListener true
         }
         // Назначаем clickListener для тапа по iconShared
-        iconSharedClickAction = { it: Int, context: AppCompatActivity ->
-            noteList[it].shared = !noteList[it].shared
-            notifyItemChanged(it)
+        iconSharedClickAction = { note: Int, context: AppCompatActivity ->
+            noteList[note].shared = !noteList[note].shared
 
-            if (noteList[it].shared){
-                val sendIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, noteList[it].uuid)
-                    type = "text/plain"
-                }
-                startActivity(context, sendIntent, null)
-            }
+            bag.add(localDB.editNote(noteList[note])
+                .subscribe(
+                    {
+                        notifyItemChanged(note)
+
+                        if (noteList[note].shared){
+                            val sendIntent: Intent = Intent().apply {
+                                action = Intent.ACTION_SEND
+                                putExtra(Intent.EXTRA_TEXT, noteList[note].uuid)
+                                type = "text/plain"
+                            }
+                            startActivity(context, sendIntent, null)
+                        }
+                    },
+                    {
+                        noteList[note].shared = !noteList[note].shared
+                        logE(it.stackTraceToString())
+                    }
+                )
+            )
         }
     }
 
     override fun getItemCount(): Int = noteList.size
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun addNote(rootNote: RootNote) {
-        noteList.add(rootNote)
-        notifyDataSetChanged()
-
-        sqliteDB.addNote(rootNote)
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun addNotes(list: List<RootNote>) {
@@ -107,14 +107,6 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun editNote(position: Int, rootNote: RootNote) {
-        noteList[position].name = rootNote.name
-        noteList[position].description = rootNote.description
-        noteList[position].shared = rootNote.shared
-        notifyItemChanged(position)
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
     fun removeNote(position: Int) {
         noteList.removeAt(position)
         notifyDataSetChanged()
@@ -122,15 +114,6 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
 
     fun getNote(position: Int) : RootNote {
         return noteList[position]
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun reloadNotes(noteList: ArrayList<RootNote>) {
-        noteList.clear()
-        for(note in noteList){
-            noteList.add(note)
-        }
-        notifyDataSetChanged()
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {
@@ -150,5 +133,4 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
     interface OnLongClickListener {
         fun onLongClick(position: Int)
     }
-
 }

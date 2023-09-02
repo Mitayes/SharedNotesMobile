@@ -1,7 +1,6 @@
 package com.mitayes.sharednotes.presentation.editRootNoteActivity
 
 import android.os.Bundle
-import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import com.mitayes.sharednotes.R
 import com.mitayes.sharednotes.databinding.ActivityEditRootNoteBinding
@@ -34,9 +33,8 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
 
         var editedData: RootNote? = null
         var notePosition: Int? = null
-
         doIf(intent.hasExtra(MainActivity.NEXT_SCREEN)) {
-            editedData = intent.getSerializableExtra(MainActivity.NEXT_SCREEN) as RootNote
+            editedData = intent.getParcelableExtra(MainActivity.NEXT_SCREEN)
         }
 
         doIf(intent.hasExtra("position")) {
@@ -68,7 +66,7 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
                     }
                 }
             }
-            doIf(!(notePosition != null && editedData != null)){
+            doIf(!(notePosition != null && editedData != null)) {
                 val newNote = RootNote(
                     UUID.randomUUID().toString(),
                     binding.etName.text.toString(),
@@ -78,11 +76,6 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
                 presenter.saveNewNote(newNote)
             }
         }
-    }
-
-    override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {
-        logD("long tap")
-        return super.onKeyLongPress(keyCode, event)
     }
 
     override fun complete() {

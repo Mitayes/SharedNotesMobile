@@ -4,47 +4,44 @@ import com.mitayes.sharednotes.domain.ILocalDB
 import com.mitayes.sharednotes.domain.RootNote
 import com.mitayes.sharednotes.onIo
 import com.mitayes.sharednotes.onUi
+import io.reactivex.Completable
 import io.reactivex.Single
 
-class LocalDBSQLite: ILocalDB {
+class LocalDBSQLite : ILocalDB {
     private val repository: RootNoteRepository by lazy { RootNoteRepository() }
-    override fun init() {
-
-    }
-
-    override fun addNote(note: RootNote): Boolean {
-        repository.insertNewRootNote(note.toRootNotesDbEntity())
-            .onIo()
-            .subscribe()
-        return true
-    }
-
-    override fun editNote(position: Int, note: RootNote): Boolean {
-        repository.editRootNote(note.toRootNotesDbEntity())
-            .onIo()
-            .subscribe()
-        return true
-    }
-
-    override fun removeNote(position: Int): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun removeNote(note: RootNote): Boolean {
-        repository.removeRootNote(note.toRootNotesDbEntity())
-            .onIo()
-            .subscribe()
-        return true
-    }
-
-    override fun getNoteList(): ArrayList<RootNote> {
-        return ArrayList()
-    }
-
-    fun getNoteList(v: Boolean = true): Single<MutableList<RootNoteTuple>> {
-        return repository.getAllNotes()
+    override fun init() { }
+    override fun addNote(note: RootNote): Completable {
+        return repository.insertNewRootNote(note.toRootNotesDbEntity())
             .onIo()
             .onUi()
+    }
+    override fun editNote(note: RootNote): Completable {
+        return repository.editRootNote(note.toRootNotesDbEntity())
+            .onIo()
+            .onUi()
+    }
+    override fun removeNote(note: RootNote): Completable {
+        return repository.removeRootNote(note.toRootNotesDbEntity())
+            .onIo()
+            .onUi()
+    }
+    override fun getNote(uuid: String) : Single<MutableList<RootNote>> {
+        return repository.getNote(uuid)
+            .onIo()
+            .map { list ->
+                list.map {
+                    it.toRootNote()
+                }.toMutableList()
+            }
+    }
+    override fun getNoteList(): Single<MutableList<RootNote>> {
+        return repository.getAllNotes()
+            .onIo()
+            .map { list ->
+                list.map {
+                    it.toRootNote()
+                }.toMutableList()
+            }
     }
 }
     

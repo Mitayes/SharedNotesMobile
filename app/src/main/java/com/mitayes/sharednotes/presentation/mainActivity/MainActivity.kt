@@ -2,7 +2,6 @@ package com.mitayes.sharednotes.presentation.mainActivity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity(), IMainView {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         init()
-        presenter.loadNoteList()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -41,7 +39,7 @@ class MainActivity : AppCompatActivity(), IMainView {
             addItemDecoration(PaddingDecorator())
         }
 
-        with(adapter){
+        with(adapter) {
             // Настраиваем действие при быстром нажатии на заметку
             setOnClickListener(object : NoteAdapter.OnClickListener {
                 override fun onClick(position: Int, model: RootNote) {
@@ -56,7 +54,7 @@ class MainActivity : AppCompatActivity(), IMainView {
             // Настраиваем действие при длительном нажатии на заметку
             setOnLongClickListener(object : NoteAdapter.OnLongClickListener {
                 override fun onLongClick(position: Int) {
-                    showAlertDialogAndDeleteNote(position)
+                    presenter.removeNote(position, this@MainActivity)
                 }
             })
         }
@@ -65,20 +63,6 @@ class MainActivity : AppCompatActivity(), IMainView {
             val intent = Intent(this@MainActivity, EditNoteActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun showAlertDialogAndDeleteNote(position: Int) {
-        val note = presenter.getNote(position)
-        AlertDialog.Builder(this@MainActivity)
-            .setTitle("Удаление")
-            .setMessage("Вы действительно хотите удалить заметку: \"${note.name}\"?")
-            .setPositiveButton("да" ) { _, _ -> presenter.removeNote(position) }
-            .setNegativeButton("нет") { _, _ -> }
-            .create()
-            .apply {
-                setCanceledOnTouchOutside(false)
-                show()
-            }
     }
 
     companion object {
@@ -96,4 +80,3 @@ class MainActivity : AppCompatActivity(), IMainView {
         ) == PackageManager.PERMISSION_GRANTED
     }
 }
-
