@@ -78,6 +78,10 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
         }
     }
 
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
     override fun complete() {
         finish()
     }

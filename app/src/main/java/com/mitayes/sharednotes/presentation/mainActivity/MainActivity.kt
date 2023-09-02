@@ -32,6 +32,12 @@ class MainActivity : AppCompatActivity(), IMainView {
         adapter.notifyDataSetChanged()
     }
 
+    override fun onDestroy() {
+        presenter.onDestroy()
+        adapter.onDestroy()
+        super.onDestroy()
+    }
+
     private fun init() {
         with(binding.rootNoteRecyclerViewList) {
             layoutManager = LinearLayoutManager(this@MainActivity)

@@ -126,6 +126,9 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
     fun noteClear() {
         noteList.clear()
     }
+    fun onDestroy() {
+        bag.clear()
+    }
 
     interface OnClickListener {
         fun onClick(position: Int, model: RootNote)

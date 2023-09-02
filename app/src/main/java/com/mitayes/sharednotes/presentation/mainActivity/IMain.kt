@@ -6,6 +6,7 @@ interface IMainPresenter {
     fun removeNote(position: Int, context: Context)
     fun reloadNotes()
     fun cloudSyncNotes()
+    fun onDestroy()
 }
 
 interface IMainView {

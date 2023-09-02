@@ -5,6 +5,7 @@ import com.mitayes.sharednotes.domain.RootNote
 interface IEditNotePresenter {
     fun saveNewNote(newNote: RootNote)
     fun editNote(position: Int, note: RootNote)
+    fun onDestroy()
 }
 
 interface IEditNoteActivity {

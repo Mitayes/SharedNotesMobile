@@ -40,4 +40,8 @@ class EditNotePresenter(
             )
         )
     }
+
+    override fun onDestroy() {
+        bag.clear()
+    }
 }

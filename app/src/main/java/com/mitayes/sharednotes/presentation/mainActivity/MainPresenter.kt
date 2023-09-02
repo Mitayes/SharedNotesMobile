@@ -68,4 +68,7 @@ class MainPresenter(
                 show()
             }
     }
+    override fun onDestroy() {
+        bag.clear()
+    }
 }
