@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mitayes.sharednotes.databinding.ActivityMainBinding
 import com.mitayes.sharednotes.domain.RootNote
+import com.mitayes.sharednotes.presentation.MyApplication
 import com.mitayes.sharednotes.presentation.editRootNoteActivity.EditNoteActivity
 
 
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity(), IMainView {
     override fun onDestroy() {
         presenter.onDestroy()
         adapter.onDestroy()
+        MyApplication.bag.clear()
         super.onDestroy()
     }
 

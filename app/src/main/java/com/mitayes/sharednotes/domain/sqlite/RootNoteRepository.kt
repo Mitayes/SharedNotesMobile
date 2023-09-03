@@ -10,6 +10,7 @@ class RootNoteRepository {
     fun getAllNotesForSync() = dao.getRootNotesForSync()
     fun getNote(uuid: String) = dao.getRootNote(uuid)
     fun insertNewRootNote(rootNotesDBEntity: RootNotesDBEntity) = dao.insertRootNote(rootNotesDBEntity)
+    fun updateSyncFlag(uuid: String, sync: Int) = dao.updateSyncFlag(uuid, sync)
     fun editRootNote(rootNotesDBEntity: RootNotesDBEntity) = dao.updateRootNote(rootNotesDBEntity)
     fun removeRootNote(note: RootNotesDBEntity) = dao.deleteRootNote(note)
 }

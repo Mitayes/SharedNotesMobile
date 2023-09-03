@@ -20,6 +20,11 @@ class LocalDBSQLite : ILocalDB {
             .onIo()
             .onUi()
     }
+    override fun updateSyncFlag(uuid: String, sync: Int): Completable {
+        return repository.updateSyncFlag(uuid, sync)
+            .onIo()
+            .onUi()
+    }
     override fun removeNote(note: RootNote): Completable {
         return repository.removeRootNote(RootNotesDBEntity(note))
             .onIo()

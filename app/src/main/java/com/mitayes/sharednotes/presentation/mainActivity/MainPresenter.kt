@@ -59,7 +59,11 @@ class MainPresenter(
                             bag.add(syncAdapter.removeNote(note)
                                 .subscribe(
                                     {
-                                        // Пометить, что заметка синхронизировалась
+                                        // Отмечаем, что заметка синхронизирована
+                                        bag.add(
+                                            localDB.updateSyncFlag(note.uuid, 1)
+                                                .subscribe()
+                                        )
                                     },
                                     {
                                         logE(it.stackTraceToString())

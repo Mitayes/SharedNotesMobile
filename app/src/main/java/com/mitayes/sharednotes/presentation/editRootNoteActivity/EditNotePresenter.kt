@@ -7,14 +7,14 @@ import com.mitayes.sharednotes.domain.ISyncServerAdapter
 import com.mitayes.sharednotes.domain.RootNote
 import com.mitayes.sharednotes.domain.sqlite.LocalDBSQLite
 import com.mitayes.sharednotes.logE
-import io.reactivex.disposables.CompositeDisposable
+import com.mitayes.sharednotes.presentation.MyApplication
 
 class EditNotePresenter(
     private val view: IEditNoteActivity,
 ) : IEditNotePresenter {
     private val localDB: ILocalDB by lazy { LocalDBSQLite() }
     private val syncAdapter: ISyncServerAdapter by lazy { APISyncAdapter() }
-    private val bag = CompositeDisposable()
+    private val bag = MyApplication.bag
 
     override fun saveNewNote(newNote: RootNote) {
         doIf(newNote.name.isNotBlank() || newNote.description.isNotBlank()) {
@@ -24,7 +24,11 @@ class EditNotePresenter(
                         bag.add(syncAdapter.addNote(newNote)
                             .subscribe(
                                 {
-                                    // Пометить, что заметка синхронизировалась
+                                    // Отмечаем, что заметка синхронизирована
+                                    bag.add(
+                                        localDB.updateSyncFlag(newNote.uuid, 1)
+                                            .subscribe()
+                                    )
                                 },
                                 {
                                     logE(it.stackTraceToString())
@@ -45,7 +49,20 @@ class EditNotePresenter(
         bag.add(localDB.editNote(note)
             .subscribe(
                 {
-                    bag.add(syncAdapter.editNote(note).subscribe())
+                    bag.add(syncAdapter.editNote(note)
+                        .subscribe(
+                            {
+                                // Отмечаем, что заметка синхронизирована
+                                bag.add(
+                                    localDB.updateSyncFlag(note.uuid, 1)
+                                        .subscribe()
+                                )
+                            },
+                            {
+                                logE(it.stackTraceToString())
+                            }
+
+                        ))
                     view.complete()
                 },
                 {
@@ -56,6 +73,6 @@ class EditNotePresenter(
     }
 
     override fun onDestroy() {
-        bag.clear()
+//        bag.clear()
     }
 }

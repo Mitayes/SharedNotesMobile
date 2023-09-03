@@ -59,6 +59,9 @@ interface RootNotesDao {
     @Update(entity = RootNotesDBEntity::class)
     fun updateRootNote(note: RootNotesDBEntity) : Completable
 
+    @Query("UPDATE $ROOT_NOTES_TABLE_NAME SET sync = :sync WHERE uuid = :uuid ;")
+    fun updateSyncFlag(uuid: String, sync: Int) : Completable
+
     @Delete(entity = RootNotesDBEntity::class)
     fun deleteRootNote(note: RootNotesDBEntity) : Completable
 }
