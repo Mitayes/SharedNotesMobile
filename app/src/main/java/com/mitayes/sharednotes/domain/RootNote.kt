@@ -12,13 +12,15 @@ data class RootNote(
     var name: String,
     var description: String = "",
     var shared: Boolean,
-    var updateDate: Date?
+    var updateDate: Date?,
+    var sync: Int,
 ) : Parcelable {
     constructor(rootNoteTuple: RootNoteTuple) : this(
         rootNoteTuple.uuid,
         rootNoteTuple.name,
         rootNoteTuple.description,
         rootNoteTuple.shared == 1,
-        fromTimestamp(rootNoteTuple.updateDate)
+        fromTimestamp(rootNoteTuple.updateDate),
+        rootNoteTuple.sync,
     )
 }

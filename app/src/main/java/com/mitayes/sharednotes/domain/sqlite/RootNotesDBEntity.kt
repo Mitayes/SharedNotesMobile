@@ -19,7 +19,8 @@ data class RootNotesDBEntity(
     @ColumnInfo(
         name = "update_date",
         defaultValue = "CURRENT_TIMESTAMP"
-    ) val updateDate: Long? = dateToTimestamp(Date())
+    ) val updateDate: Long? = dateToTimestamp(Date()),
+    @ColumnInfo(name = "sync") val sync: Int,
 ) {
     constructor(rootNote: RootNote) : this(
         rootNote.uuid,
@@ -27,6 +28,7 @@ data class RootNotesDBEntity(
         rootNote.description,
         if (rootNote.shared) { 1 } else { 0 },
         1,
-        dateToTimestamp(rootNote.updateDate)
+        dateToTimestamp(rootNote.updateDate),
+        rootNote.sync,
     )
 }

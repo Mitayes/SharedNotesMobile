@@ -9,5 +9,6 @@ interface ILocalDB {
     fun editNote(note: RootNote) : Completable
     fun removeNote(note: RootNote) : Completable
     fun getNoteList(): Single<MutableList<RootNote>>
+    fun getNoteListForSync(): Single<MutableList<RootNote>>
     fun getNote(uuid: String): Single<MutableList<RootNote>>
 }

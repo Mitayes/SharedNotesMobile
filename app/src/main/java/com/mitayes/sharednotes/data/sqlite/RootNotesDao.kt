@@ -22,9 +22,21 @@ interface RootNotesDao {
             ", shared " +
             ", is_owner " +
             ", update_date " +
-        "FROM $ROOT_NOTES_TABLE_NAME" +
+        "FROM $ROOT_NOTES_TABLE_NAME " +
         ";")
     fun getAllRootNotes(): Single<MutableList<RootNoteTuple>>
+    @Query(
+        "SELECT " +
+                "uuid " +
+                ", name" +
+                ", description" +
+                ", shared " +
+                ", is_owner " +
+                ", update_date " +
+                "FROM $ROOT_NOTES_TABLE_NAME " +
+                "WHERE sync = 0 " +
+                ";")
+    fun getRootNotesForSync(): Single<MutableList<RootNoteTuple>>
 
     @Query(
         "SELECT " +

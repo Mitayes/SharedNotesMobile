@@ -43,5 +43,14 @@ class LocalDBSQLite : ILocalDB {
                 }.toMutableList()
             }
     }
+    override fun getNoteListForSync(): Single<MutableList<RootNote>> {
+        return repository.getAllNotesForSync()
+            .onIo()
+            .map { list ->
+                list.map {
+                    RootNote(it)
+                }.toMutableList()
+            }
+    }
 }
     
