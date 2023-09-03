@@ -65,7 +65,7 @@ class APISyncAdapter : ISyncServerAdapter {
         return result
     }
 
-    override fun syncNotes(notesList: List<RootNote>): Completable {
+    override fun syncNotes(notesList: MutableList<RootNote>): Completable {
         TODO("Not yet implemented")
     }
 

@@ -61,7 +61,8 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
                         binding.etName.text.toString(),
                         binding.twDescription.text.toString(),
                         it.shared,
-                        Date()
+                        Date(),
+                        it.sync
                     )
                     notePosition?.let { p ->
                         presenter.editNote(p, newNote)
@@ -74,7 +75,8 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
                     binding.etName.text.toString(),
                     binding.twDescription.text.toString(),
                     false,
-                    Date()
+                    Date(),
+                    0
                 )
                 presenter.saveNewNote(newNote)
             }

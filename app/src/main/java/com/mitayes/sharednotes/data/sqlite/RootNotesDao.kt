@@ -22,6 +22,7 @@ interface RootNotesDao {
             ", shared " +
             ", is_owner " +
             ", update_date " +
+            ", sync " +
         "FROM $ROOT_NOTES_TABLE_NAME " +
         ";")
     fun getAllRootNotes(): Single<MutableList<RootNoteTuple>>
@@ -33,6 +34,7 @@ interface RootNotesDao {
                 ", shared " +
                 ", is_owner " +
                 ", update_date " +
+                ", sync " +
                 "FROM $ROOT_NOTES_TABLE_NAME " +
                 "WHERE sync = 0 " +
                 ";")
@@ -46,6 +48,7 @@ interface RootNotesDao {
                 ", shared " +
                 ", is_owner " +
                 ", update_date " +
+                ", sync " +
                 "FROM $ROOT_NOTES_TABLE_NAME " +
                 "WHERE uuid = :uuid ;")
     fun getRootNote(uuid: String): Single<MutableList<RootNoteTuple>>

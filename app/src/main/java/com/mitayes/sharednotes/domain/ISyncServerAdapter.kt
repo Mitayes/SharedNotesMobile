@@ -9,5 +9,5 @@ interface ISyncServerAdapter {
     fun addNote(note: RootNote) : Completable
     fun editNote(note: RootNote) : Completable
     fun removeNote(note: RootNote) : Completable
-    fun syncNotes(notesList: List<RootNote>): Completable
+    fun syncNotes(notesList: MutableList<RootNote>): Completable
 }
