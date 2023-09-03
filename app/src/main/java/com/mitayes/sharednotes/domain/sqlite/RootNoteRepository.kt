@@ -1,7 +1,7 @@
-package com.mitayes.sharednotes.data.sqlite
+package com.mitayes.sharednotes.domain.sqlite
 
-import com.mitayes.sharednotes.domain.AppDatabase
-import com.mitayes.sharednotes.domain.RootNotesDao
+import com.mitayes.sharednotes.data.sqlite.AppDatabase
+import com.mitayes.sharednotes.data.sqlite.RootNotesDao
 import com.mitayes.sharednotes.presentation.MyApplication
 
 class RootNoteRepository {

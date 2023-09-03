@@ -1,4 +1,4 @@
-package com.mitayes.sharednotes.data.sqlite
+package com.mitayes.sharednotes.domain.sqlite
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mitayes.sharednotes.R
-import com.mitayes.sharednotes.data.sqlite.LocalDBSQLite
+import com.mitayes.sharednotes.domain.sqlite.LocalDBSQLite
 import com.mitayes.sharednotes.databinding.RootNoteItemBinding
 import com.mitayes.sharednotes.domain.RootNote
 import com.mitayes.sharednotes.logE

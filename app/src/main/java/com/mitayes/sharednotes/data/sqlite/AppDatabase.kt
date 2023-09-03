@@ -1,10 +1,10 @@
-package com.mitayes.sharednotes.domain
+package com.mitayes.sharednotes.data.sqlite
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.mitayes.sharednotes.data.sqlite.RootNotesDBEntity
+import com.mitayes.sharednotes.domain.sqlite.RootNotesDBEntity
 
 private const val NOTE_DATABASE_NAME = "SharedNotes"
 
@@ -20,7 +20,7 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         @Volatile private var instance: AppDatabase? = null
         fun getInstance(context: Context): AppDatabase {
-            return instance?: synchronized(this) { buildDatabase(context).also { instance = it} }
+            return instance ?: synchronized(this) { buildDatabase(context).also { instance = it} }
         }
 
         private fun buildDatabase(context: Context): AppDatabase {

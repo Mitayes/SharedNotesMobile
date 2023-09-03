@@ -1,4 +1,4 @@
-package com.mitayes.sharednotes.data.sqlite
+package com.mitayes.sharednotes.domain.sqlite
 
 import androidx.room.ColumnInfo
 
@@ -10,5 +10,6 @@ data class RootNoteTuple(
     @ColumnInfo(name = "is_owner")
     val isOwner: Int,
     @ColumnInfo(name = "update_date", defaultValue = "CURRENT_TIMESTAMP")
-    val updateDate: Long
+    val updateDate: Long,
+    val sync: Int,
 )

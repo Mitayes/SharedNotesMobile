@@ -1,11 +1,11 @@
 package com.mitayes.sharednotes.presentation.editRootNoteActivity
 
 import com.mitayes.sharednotes.data.api.APISyncAdapter
-import com.mitayes.sharednotes.data.sqlite.LocalDBSQLite
 import com.mitayes.sharednotes.doIf
 import com.mitayes.sharednotes.domain.ILocalDB
 import com.mitayes.sharednotes.domain.ISyncServerAdapter
 import com.mitayes.sharednotes.domain.RootNote
+import com.mitayes.sharednotes.domain.sqlite.LocalDBSQLite
 import com.mitayes.sharednotes.logE
 import io.reactivex.disposables.CompositeDisposable
 

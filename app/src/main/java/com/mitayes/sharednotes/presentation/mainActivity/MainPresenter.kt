@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.widget.Toast
 import com.mitayes.sharednotes.data.api.APISyncAdapter
-import com.mitayes.sharednotes.data.sqlite.LocalDBSQLite
+import com.mitayes.sharednotes.domain.sqlite.LocalDBSQLite
 import com.mitayes.sharednotes.doIf
 import com.mitayes.sharednotes.domain.ILocalDB
 import com.mitayes.sharednotes.domain.ISyncServerAdapter

@@ -1,7 +1,7 @@
 package com.mitayes.sharednotes.domain
 
 import android.os.Parcelable
-import com.mitayes.sharednotes.data.sqlite.RootNoteTuple
+import com.mitayes.sharednotes.domain.sqlite.RootNoteTuple
 import com.mitayes.sharednotes.fromTimestamp
 import kotlinx.android.parcel.Parcelize
 import java.util.Date
