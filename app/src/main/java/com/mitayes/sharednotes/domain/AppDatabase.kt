@@ -9,7 +9,7 @@ import com.mitayes.sharednotes.data.sqlite.RootNotesDBEntity
 private const val NOTE_DATABASE_NAME = "SharedNotes"
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
         RootNotesDBEntity::class
     ]

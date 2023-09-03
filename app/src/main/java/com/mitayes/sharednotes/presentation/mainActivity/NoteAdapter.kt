@@ -14,11 +14,14 @@ import com.mitayes.sharednotes.databinding.RootNoteItemBinding
 import com.mitayes.sharednotes.domain.RootNote
 import com.mitayes.sharednotes.logE
 import io.reactivex.disposables.CompositeDisposable
+import java.text.SimpleDateFormat
+import java.util.Date
 
 typealias ClickIconAction = ((Int, AppCompatActivity) -> Unit)
 typealias LongClickItemAction = ((Int) -> Unit)
 
-class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
+class NoteAdapter(private val context: MainActivity) :
+    RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
     private val noteList = mutableListOf<RootNote>()
     private var onClickListener: OnClickListener? = null
     private var onLongClickListener: OnLongClickListener? = null
@@ -30,13 +33,17 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = RootNoteItemBinding.bind(itemView)
-    fun bind(rootNote: RootNote) = with(binding){
+        @SuppressLint("SimpleDateFormat")
+        fun bind(rootNote: RootNote) = with(binding) {
             name.text = rootNote.name
             description.text = rootNote.description
             if (rootNote.shared) {
                 iconShared.setImageResource(R.drawable.baseline_share_true)
             } else {
                 iconShared.setImageResource(R.drawable.outline_share_false)
+            }
+            updateDate.text = rootNote.updateDate?.let {
+                SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(it)
             }
 
             iconShared.setOnClickListener {
@@ -72,13 +79,14 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
         // Назначаем clickListener для тапа по iconShared
         iconSharedClickAction = { note: Int, context: AppCompatActivity ->
             noteList[note].shared = !noteList[note].shared
+            noteList[note].updateDate = Date()
 
             bag.add(localDB.editNote(noteList[note])
                 .subscribe(
                     {
                         notifyItemChanged(note)
 
-                        if (noteList[note].shared){
+                        if (noteList[note].shared) {
                             val sendIntent: Intent = Intent().apply {
                                 action = Intent.ACTION_SEND
                                 putExtra(Intent.EXTRA_TEXT, noteList[note].uuid)
@@ -112,13 +120,14 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
         notifyDataSetChanged()
     }
 
-    fun getNote(position: Int) : RootNote {
+    fun getNote(position: Int): RootNote {
         return noteList[position]
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {
         this.onClickListener = onClickListener
     }
+
     fun setOnLongClickListener(onLongClickListener: OnLongClickListener) {
         this.onLongClickListener = onLongClickListener
     }
@@ -126,6 +135,7 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
     fun noteClear() {
         noteList.clear()
     }
+
     fun onDestroy() {
         bag.clear()
     }
@@ -133,6 +143,7 @@ class NoteAdapter(private val context: MainActivity) : RecyclerView.Adapter<Note
     interface OnClickListener {
         fun onClick(position: Int, model: RootNote)
     }
+
     interface OnLongClickListener {
         fun onLongClick(position: Int)
     }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/im_root_note_item"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="95dp"
     android:background="@drawable/layout_bg_rounded"
     android:orientation="horizontal"
 
@@ -36,8 +36,18 @@
             android:maxLines="1"
             android:textAlignment="textStart"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             tools:text="Описание заметки" />
+        <TextView
+            android:id="@+id/updateDate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="Дата обновления" />
     </LinearLayout>
 
     <ImageView

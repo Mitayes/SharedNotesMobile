@@ -8,6 +8,7 @@ import com.mitayes.sharednotes.doIf
 import com.mitayes.sharednotes.domain.RootNote
 import com.mitayes.sharednotes.logD
 import com.mitayes.sharednotes.presentation.mainActivity.MainActivity
+import java.util.Date
 import java.util.UUID
 
 class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
@@ -59,7 +60,8 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
                         it.uuid,
                         binding.etName.text.toString(),
                         binding.twDescription.text.toString(),
-                        it.shared
+                        it.shared,
+                        Date()
                     )
                     notePosition?.let { p ->
                         presenter.editNote(p, newNote)
@@ -71,7 +73,8 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
                     UUID.randomUUID().toString(),
                     binding.etName.text.toString(),
                     binding.twDescription.text.toString(),
-                    false
+                    false,
+                    Date()
                 )
                 presenter.saveNewNote(newNote)
             }

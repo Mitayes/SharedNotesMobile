@@ -9,5 +9,5 @@
     <string name="add_btn_description">Добавить заметку</string>
     <string name="sync_btn_description">Синхронизировать заметки</string>
 
-    <dimen name="noteName">28sp</dimen>
+    <dimen name="noteName">26sp</dimen>
 </resources>

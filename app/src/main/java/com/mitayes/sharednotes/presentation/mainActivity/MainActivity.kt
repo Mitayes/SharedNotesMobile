@@ -69,6 +69,11 @@ class MainActivity : AppCompatActivity(), IMainView {
             val intent = Intent(this@MainActivity, EditNoteActivity::class.java)
             startActivity(intent)
         }
+
+        // Настраиваем действие при нажатии кнопку sync
+        binding.buttonSync.setOnClickListener {
+            presenter.cloudSyncNotes()
+        }
     }
 
     companion object {

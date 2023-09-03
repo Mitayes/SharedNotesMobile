@@ -11,17 +11,17 @@ class LocalDBSQLite : ILocalDB {
     private val repository: RootNoteRepository by lazy { RootNoteRepository() }
     override fun init() { }
     override fun addNote(note: RootNote): Completable {
-        return repository.insertNewRootNote(note.toRootNotesDbEntity())
+        return repository.insertNewRootNote(RootNotesDBEntity(note))
             .onIo()
             .onUi()
     }
     override fun editNote(note: RootNote): Completable {
-        return repository.editRootNote(note.toRootNotesDbEntity())
+        return repository.editRootNote(RootNotesDBEntity(note))
             .onIo()
             .onUi()
     }
     override fun removeNote(note: RootNote): Completable {
-        return repository.removeRootNote(note.toRootNotesDbEntity())
+        return repository.removeRootNote(RootNotesDBEntity(note))
             .onIo()
             .onUi()
     }
@@ -30,7 +30,7 @@ class LocalDBSQLite : ILocalDB {
             .onIo()
             .map { list ->
                 list.map {
-                    it.toRootNote()
+                    RootNote(it)
                 }.toMutableList()
             }
     }
@@ -39,7 +39,7 @@ class LocalDBSQLite : ILocalDB {
             .onIo()
             .map { list ->
                 list.map {
-                    it.toRootNote()
+                    RootNote(it)
                 }.toMutableList()
             }
     }
