@@ -18,57 +18,31 @@ class EditNotePresenter(
 
     override fun saveNewNote(newNote: RootNote) {
         doIf(newNote.name.isNotBlank() || newNote.description.isNotBlank()) {
-            bag.add(localDB.addNote(newNote)
-                .subscribe(
-                    {
-                        bag.add(syncAdapter.addNote(newNote)
-                            .subscribe(
-                                {
-                                    // Отмечаем, что заметка синхронизирована
-                                    bag.add(
-                                        localDB.updateSyncFlag(newNote.uuid, 1)
-                                            .subscribe()
-                                    )
-                                },
-                                {
-                                    logE(it.stackTraceToString())
-                                }
-                            )
-                        )
-                        view.complete()
-                    },
-                    {
+            bag.add(
+                localDB.addNote(newNote)
+                    .andThen(syncAdapter.addNote(newNote))
+                    .andThen(localDB.updateSyncFlag(newNote.uuid, 1))
+                    .doOnError {
                         logE(it.stackTraceToString())
                     }
-                )
+                    .subscribe {
+                        view.complete()
+                    }
             )
         }
     }
 
     override fun editNote(position: Int, note: RootNote) {
-        bag.add(localDB.editNote(note)
-            .subscribe(
-                {
-                    bag.add(syncAdapter.editNote(note)
-                        .subscribe(
-                            {
-                                // Отмечаем, что заметка синхронизирована
-                                bag.add(
-                                    localDB.updateSyncFlag(note.uuid, 1)
-                                        .subscribe()
-                                )
-                            },
-                            {
-                                logE(it.stackTraceToString())
-                            }
-
-                        ))
-                    view.complete()
-                },
-                {
+        bag.add(
+            localDB.editNote(note)
+                .andThen(syncAdapter.editNote(note))
+                .andThen(localDB.updateSyncFlag(note.uuid, 1))
+                .doOnError {
                     logE(it.stackTraceToString())
                 }
-            )
+                .subscribe {
+                    view.complete()
+                }
         )
     }
 

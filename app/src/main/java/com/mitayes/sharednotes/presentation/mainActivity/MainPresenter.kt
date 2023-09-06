@@ -2,14 +2,11 @@ package com.mitayes.sharednotes.presentation.mainActivity
 
 import android.app.AlertDialog
 import android.content.Context
-import android.widget.Toast
 import com.mitayes.sharednotes.data.api.APISyncAdapter
-import com.mitayes.sharednotes.doIf
 import com.mitayes.sharednotes.domain.ILocalDB
 import com.mitayes.sharednotes.domain.ISyncServerAdapter
 import com.mitayes.sharednotes.domain.sqlite.LocalDBSQLite
 import com.mitayes.sharednotes.logE
-import com.mitayes.sharednotes.presentation.MyApplication
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
@@ -52,28 +49,16 @@ class MainPresenter(
             .setTitle("Удаление")
             .setMessage("Вы действительно хотите удалить заметку: \"${note.name}\"?")
             .setPositiveButton("да") { _, _ ->
-                bag.add(localDB.removeNote(note)
-                    .subscribe(
-                        {
-                            view.adapter.removeNote(position)
-                            bag.add(syncAdapter.removeNote(note)
-                                .subscribe(
-                                    {
-                                        // Отмечаем, что заметка синхронизирована
-                                        bag.add(
-                                            localDB.updateSyncFlag(note.uuid, 1)
-                                                .subscribe()
-                                        )
-                                    },
-                                    {
-                                        logE(it.stackTraceToString())
-                                    }
-                                ))
-                        },
-                        {
+                bag.add(
+                    localDB.removeNote(note)
+                        .andThen(syncAdapter.removeNote(note))
+                        .andThen(localDB.updateSyncFlag(note.uuid, 1))
+                        .doOnError {
                             logE(it.stackTraceToString())
                         }
-                    )
+                        .subscribe {
+                            view.adapter.removeNote(position)
+                        }
                 )
             }
             .setNegativeButton("нет") { _, _ -> }
@@ -85,29 +70,7 @@ class MainPresenter(
     }
 
     override fun cloudSyncNotes() {
-        bag.add(
-            syncAdapter.test().subscribe(
-                { response ->
-                    doIf(response.isSuccessful) {
-                        response.body?.let { body ->
-                            Toast.makeText(
-                                MyApplication.appContext,
-                                "Заметки синхронизированы",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                },
-                {
-                    logE(it.stackTraceToString())
-                    Toast.makeText(
-                        MyApplication.appContext,
-                        "Ошибка синхронизации",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            )
-        )
+
     }
 
     override fun onDestroy() {

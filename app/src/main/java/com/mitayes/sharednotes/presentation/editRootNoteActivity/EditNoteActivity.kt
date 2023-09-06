@@ -42,7 +42,6 @@ class EditNoteActivity : AppCompatActivity(), IEditNoteActivity {
             notePosition = intent.getIntExtra("position", 0)
         }
 
-        // it the emplist is not null the it has some data and display it
         editedData?.let {
             noteName = it.name
             noteDescription = it.description

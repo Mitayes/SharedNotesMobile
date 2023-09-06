@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mitayes.sharednotes.R
-import com.mitayes.sharednotes.domain.sqlite.LocalDBSQLite
 import com.mitayes.sharednotes.databinding.RootNoteItemBinding
 import com.mitayes.sharednotes.domain.RootNote
+import com.mitayes.sharednotes.domain.sqlite.LocalDBSQLite
 import com.mitayes.sharednotes.logE
 import io.reactivex.disposables.CompositeDisposable
 import java.text.SimpleDateFormat
@@ -33,6 +33,7 @@ class NoteAdapter(private val context: MainActivity) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = RootNoteItemBinding.bind(itemView)
+
         @SuppressLint("SimpleDateFormat")
         fun bind(rootNote: RootNote) = with(binding) {
             name.text = rootNote.name
@@ -65,7 +66,7 @@ class NoteAdapter(private val context: MainActivity) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // Тут мы заполняем шаблон элемента RecyclerView
+        // Заполняем шаблон элемента RecyclerView
         holder.bind(noteList[position])
 
         // Назначаем clickListener для тапа по элементу RecyclerView
@@ -128,16 +129,12 @@ class NoteAdapter(private val context: MainActivity) :
         this.onClickListener = onClickListener
     }
 
-    fun setOnLongClickListener(onLongClickListener: OnLongClickListener) {
-        this.onLongClickListener = onLongClickListener
-    }
-
     fun noteClear() {
         noteList.clear()
     }
 
-    fun onDestroy() {
-        bag.clear()
+    fun setOnLongClickListener(onLongClickListener: OnLongClickListener) {
+        this.onLongClickListener = onLongClickListener
     }
 
     interface OnClickListener {
@@ -146,5 +143,9 @@ class NoteAdapter(private val context: MainActivity) :
 
     interface OnLongClickListener {
         fun onLongClick(position: Int)
+    }
+
+    fun onDestroy() {
+        bag.clear()
     }
 }
